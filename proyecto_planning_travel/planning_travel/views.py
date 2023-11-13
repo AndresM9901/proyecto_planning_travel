@@ -72,3 +72,13 @@ def categorias_actualizar(request):
 
 def index(request):
     return render(request, 'planning_travel/login/login.html')
+
+def usuarios(request):
+    q = Usuario.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/login/usuarios.html', contexto)
+
+def usuarios_form(request):
+    q = Usuario.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/login/usuarios_form.html', contexto)
