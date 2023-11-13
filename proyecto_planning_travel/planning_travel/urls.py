@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('inicio/', views.inicio, name="inicio"),
-    path('', views.index, name="index"),
+    # path('', views.index, name="index"),
     # Crud de Categorias
     path('categorias_listar/', views.categorias, name="categorias_listar"),
     path('categorias_form/', views.categorias_form, name="categorias_form"),
