@@ -8,7 +8,7 @@ class Categoria(models.Model):
 class Rol(models.Model):
     nombre = models.CharField(max_length=254)
     descripcion = models.TextField()
-    permisos = models.CharField()
+    permisos = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nombre
@@ -83,7 +83,7 @@ class Puntuacion(models.Model):
 class Foto(models.Model):
     id_hotel = models.ForeignKey(Hotel, on_delete=models.DO_NOTHING)
     url_foto = models.CharField(max_length=254)
-    descripcion = models.CharField(255)
+    descripcion = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.id_hotel}'
@@ -108,7 +108,7 @@ class Habitacion(models.Model):
     id_hotel = models.ForeignKey(Hotel, on_delete=models.DO_NOTHING)
     ocupado = models.BooleanField()
     capacidad_huesped = models.IntegerField()
-    tipoHabitacion = models.CharField(255)
+    tipoHabitacion = models.CharField(max_length=255)
     foto = models.ForeignKey(Foto, on_delete=models.DO_NOTHING)
     precio = models.DecimalField(max_digits=250, decimal_places=2)
 
@@ -127,7 +127,7 @@ class Reserva(models.Model):
 class ReservaUsuario(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     reserva = models.ForeignKey(Reserva, on_delete=models.DO_NOTHING)
-    estado_reserva = models.CharField(255)
+    estado_reserva = models.CharField(max_length=255)
     fecha_realizacion = models.DateTimeField()
 
     def __str__(self):
@@ -136,23 +136,23 @@ class ReservaUsuario(models.Model):
 class perfilUsuario(models.Model):
     id_hotel = models.ForeignKey(Hotel, on_delete=models.DO_NOTHING)
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(255)
-    numero_contacto = models.CharField(15)
-    fotoPerfil = models.CharField(255)
+    nombre = models.CharField(max_length=255)
+    numero_contacto = models.CharField(max_length=15)
+    fotoPerfil = models.CharField(max_length=255)
 
     def __str__(self):
         return self.id_hotel
 
 class Cliente(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(255)
-    numero_contacto = models.CharField(15)
-    fotoPerfil = models.CharField(255)
+    nombre = models.CharField(max_length=255)
+    numero_contacto = models.CharField(max_length=15)
+    fotoPerfil = models.CharField(max_length=255)
 
 class reportes(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(255)
-    descripcion = models.CharField(255)
+    nombre = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255)
 
 class reporteModerador(models.Model):
     id_reporte = models.ForeignKey(reportes, on_delete=models.DO_NOTHING)
