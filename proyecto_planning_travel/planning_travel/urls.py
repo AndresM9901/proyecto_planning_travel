@@ -32,4 +32,14 @@ urlpatterns = [
     path('puntuaciones_actualizar/', views.puntuaciones_actualizar, name='puntuaciones_actualizar'),
     path('puntuaciones_eliminar/<int:id>', views.puntuaciones_eliminar, name='puntuaciones_eliminar'),
     path('puntuaciones_form_editar/<int:id>', views.puntuaciones_form_editar, name='puntuaciones_form_editar'),
+
+
+    # Crud de Comodidades
+    path('comodidades_listar/', views.comodidades, name='comodidades_listar'),
+    path('comodidades_form/', views.comodidades_form, name='comodidades_form'),
+    path('comodidades_crear/', views.comodidades_crear, name='comodidades_crear'),
+    path('comodidades_eliminar/<int:id>', views.comodidades_eliminar, name='comodidades_eliminar'),
+    path('comodidades_form_editar/<int:id>', views.comodidades_form_editar, name='comodidades_formulario_editar'),
+    path('comodidades_actualizar/', views.comodidades_actualizar, name='comodidades_actualizar'),
+
 ]

@@ -75,6 +75,7 @@ def index(request):
     return render(request, 'planning_travel/login/login.html')
 
 # Crud de Usuarios
+
 def usuarios(request):
     q = Usuario.objects.all()
     contexto = {'data': q}
@@ -151,6 +152,7 @@ def usuarios_actualizar(request):
     return redirect('usuarios_listar')
 
 # Crud de Hoteles
+
 def hoteles(request):
     q = Hotel.objects.all()
     contexto = {'data': q}
@@ -226,6 +228,7 @@ def hoteles_actualizar(request):
         messages.warning(request,'No se enviaron datos')
 
 # Crud de puntuacion
+
 def puntuaciones(request):
     q = Puntuacion.objects.all()
     contexto = {'data': q}
@@ -287,3 +290,64 @@ def puntuaciones_actualizar(request):
 
     return redirect('puntuaciones_listar')
 
+# Crud Comodidades
+
+def comodidades(request):
+    q = Comodidad.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/comodidades/comodidad.html', contexto)
+
+def comodidades_form(request):
+    return render(request, 'planning_travel/comodidades/comodidad_form.html')
+
+def comodidades_crear(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        try:
+            q = Comodidad(
+                nombre=nombre,
+                descripcion=descripcion
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('comodidades_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('comodidades_listar')
+    
+def comodidades_eliminar(request, id):
+    try:
+        q = Comodidad.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Comodidad eliminada correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+
+    return redirect('comodidades_listar')
+
+def comodidades_form_editar(request, id):
+    q = Comodidad.objects.get(pk = id)
+    contexto = {'data': q}
+    return render(request, 'planning_travel/comodidades/comodidad_form_editar.html', contexto)
+
+def comodidades_actualizar(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        nombre = request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        try:
+            q = Comodidad.objects.get(pk = id)
+            q.nombre = nombre
+            q.descripcion = descripcion
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        
+    return redirect('comodidades_listar')
