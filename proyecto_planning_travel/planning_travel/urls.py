@@ -32,4 +32,11 @@ urlpatterns = [
     path('puntuaciones_actualizar/', views.puntuaciones_actualizar, name='puntuaciones_actualizar'),
     path('puntuaciones_eliminar/<int:id>', views.puntuaciones_eliminar, name='puntuaciones_eliminar'),
     path('puntuaciones_form_editar/<int:id>', views.puntuaciones_form_editar, name='puntuaciones_form_editar'),
+    # Crud de Fotos
+    path('fotos_listar/', views.fotos, name='fotos_listar'),
+    path('fotos_form/', views.fotos_form, name='fotos_form'),
+    path('fotos_crear/', views.fotos_crear, name='fotos_crear'),
+    path('fotos_actualizar/', views.fotos_actualizar, name='fotos_actualizar'),
+    path('fotos_eliminar/<int:id>', views.fotos_eliminar, name='fotos_eliminar'),
+    path('fotos_form_editar/<int:id>', views.fotos_form_editar, name='fotos_form_editar'),
 ]

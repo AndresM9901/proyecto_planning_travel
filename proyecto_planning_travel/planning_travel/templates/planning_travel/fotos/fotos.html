@@ -1,29 +1,24 @@
 {% extends 'planning_travel/base.html' %} 
 {% load static %} 
-{% block titulo %}Usuarios{% endblock %}
+{% block titulo %}Fotos{% endblock %}
 {% block contenedor %}
-    <h1>Usuarios</h1>
-    <a class="btn btn-success" href="{% url 'usuarios_form' %}">Agregar Usuarios</a>
+    <h1>Fotos</h1>
+    <a class="btn btn-success" href="{% url 'fotos_form' %}">Agregar fotos</a>
 
     <table class="table">
         <thead>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Contraseña</th>
-            <th>Rol</th>
+            <th>Id Hotel</th>
             <th>Foto</th>
-            <th>Acciones</th>
+            <th>Descripcion</th>
         </thead>
         <tbody>
             {% for r in data %}
             <tr>
                 <td>{{ r.id }}</td>
-                <td>{{ r.nombre }}</td>
-                <td>{{ r.correo }}</td>
-                <td>{{ r.contrasena }}</td>
-                <td>{{ r.rol }}</td>
-                <td>{% if r.foto.url != '' %}<img width="100" height="100" src="{{ r.foto.url }}" alt="">{% endif %}</td>
+                <td>{{ r.id_hotel }}</td>
+                <td>{% if r.url_foto.url != '' %}<img width="100" height="100" src="{{ r.url_foto.url }}" alt="">{% endif %}</td>
+                <td>{{ r.descripcion }}</td>
                 <td>
                     <button
                         type="button"
@@ -33,11 +28,11 @@
                     </button>
                     <a
                         class="btn btn-warning"
-                        href="{% url 'usuarios_form_editar' r.id %}"
+                        href="{% url 'fotos_form_editar' r.id %}"
                         ><i class="bi bi-pencil"></i
                     ></a>
                     <a
-                        href="javascript:eliminar('{% url 'usuarios_eliminar' r.id %}')"
+                        href="javascript:eliminar('{% url 'fotos_eliminar' r.id %}')"
                         class="btn btn-danger"
                         ><i class="bi bi-x-lg"></i
                     ></a>
