@@ -20,13 +20,8 @@
                 <input type="password" class="form-control" id="contrasena" placeholder="Contraseña" name="contrasena">
                 <label for="contrasena">Contraseña</label>
             </div>
-            <div class="form-floating mb-3 col-12 col-md-6 p-1">
-                <select class="form-select" id="rol" name="rol" required>
-                    <option value="">Seleccionar rol</option>
-                    {% for c in data %}
-                        <option value="{{ c.id }}">{{ c.nombre }}</option>
-                    {% endfor %}
-                </select>
+            <div class="form-floating mb-3 p-1">
+                <input type="text" class="form-control" id="rol" placeholder="Rol" name="rol">
                 <label for="rol"
                     >Rol</label
                 >
