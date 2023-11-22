@@ -8,7 +8,7 @@
         <h1 class="text-center">Registrar Puntuacion</h1>
         <form action="{% url 'puntuaciones_crear' %}" method="post">
             {% csrf_token %}
-            <div class="form-floating mb-3 col-12 col-md-6 p-1">
+            <div class="form-floating mb-3 col-12 p-1">
                 <select class="form-select" id="comentario" name="comentario" required>
                     <option value="">Seleccionar Comentario</option>
                     {% for c in data %}
