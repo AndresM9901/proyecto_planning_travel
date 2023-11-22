@@ -32,29 +32,25 @@ urlpatterns = [
     path('puntuaciones_actualizar/', views.puntuaciones_actualizar, name='puntuaciones_actualizar'),
     path('puntuaciones_eliminar/<int:id>', views.puntuaciones_eliminar, name='puntuaciones_eliminar'),
     path('puntuaciones_form_editar/<int:id>', views.puntuaciones_form_editar, name='puntuaciones_form_editar'),
-
-     path('comentarios_listar/', views.comentarios, name="comentarios_listar"),
-    path('comentarios_form/', views.comentarios_form, name="comentarios_form"),
-    path('comentarios_crear/', views.comentarios_crear, name="comentarios_crear"),
-    path('comentarios_actualizar/', views.comentarios_actualizar, name="comentarios_actualizar"),
-    path('comentarios_eliminar/<int:id>/', views.comentarios_eliminar, name="comentarios_eliminar"),
-    path('comentarios_form_editar/<int:id>/', views.comentarios_form_editar, name="comentarios_form_editar"),
-    
-    
-    path('roles_listar/', views.roles, name="roles_listar"),
-    path('roles_form/', views.roles_form, name="roles_form"),
-    path('roles_crear/', views.roles_crear, name="roles_crear"),
-    path('roles_actualizar/', views.roles_actualizar, name="roles_actualizar"),
-    path('roles_eliminar/<int:id>/', views.roles_eliminar, name="roles_eliminar"),
-    path('roles_formulario_editar/<int:id>/', views.roles_formulario_editar, name="roles_formulario_editar"),
-
-    path('favoritos_listar/', views.favoritos, name="favoritos_listar"),
-    path('favoritos_form/', views.favoritos_form, name="favoritos_form"),
-    path('favoritos_crear/', views.favoritos_crear, name="favoritos_crear"),
-    path('favoritos_actualizar/', views.favoritos_actualizar, name="favoritos_actualizar"),
-    path('favoritos_eliminar/<int:id>/', views.favoritos_eliminar, name="favoritos_eliminar"),
-    path('favoritos_formulario_editar/<int:id>/', views.favoritos_formulario_editar, name="favoritos_formulario_editar"),
-
-    
-    
+    # Crud de Fotos
+    path('fotos_listar/', views.fotos, name='fotos_listar'),
+    path('fotos_form/', views.fotos_form, name='fotos_form'),
+    path('fotos_crear/', views.fotos_crear, name='fotos_crear'),
+    path('fotos_actualizar/', views.fotos_actualizar, name='fotos_actualizar'),
+    path('fotos_eliminar/<int:id>', views.fotos_eliminar, name='fotos_eliminar'),
+    path('fotos_form_editar/<int:id>', views.fotos_form_editar, name='fotos_form_editar'),
+    # Crud de hotelComodidad
+    path('hoteles_comodidades_listar/', views.hoteles_comodidades, name='hoteles_comodidades_listar'),
+    path('hoteles_comodidades_form/', views.hoteles_comodidades_form, name='hoteles_comodidades_form'),
+    path('hoteles_comodidades_crear/', views.hoteles_comodidades_crear, name='hoteles_comodidades_crear'),
+    path('hoteles_comodidades_actualizar/', views.hoteles_comodidades_actualizar, name='hoteles_comodidades_actualizar'),
+    path('hoteles_comodidades_eliminar/<int:id>', views.hoteles_comodidades_eliminar, name='hoteles_comodidades_eliminar'),
+    path('hoteles_comodidades_form_editar/<int:id>', views.hoteles_comodidades_form_editar, name='hoteles_comodidades_form_editar'),
+    # Crud de Reservas
+    path('reservas_listar/', views.reservas, name='reservas_listar'),
+    path('reservas_form/', views.reservas_form, name='reservas_form'),
+    path('reservas_crear/', views.reservas_crear, name='reservas_crear'),
+    path('reservas_actualizar/', views.reservas_actualizar, name='reservas_actualizar'),
+    path('reservas_eliminar/<int:id>', views.reservas_eliminar, name='reservas_eliminar'),
+    path('reservas_form_editar/<int:id>', views.reservas_form_editar, name='reservas_form_editar'),
 ]
