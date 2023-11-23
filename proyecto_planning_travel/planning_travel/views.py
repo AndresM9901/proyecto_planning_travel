@@ -289,6 +289,219 @@ def puntuaciones_actualizar(request):
 
     return redirect('puntuaciones_listar')
 
+<<<<<<< HEAD
+def comentarios(request):
+    q = Comentario.objects.all()
+    e = Hotel.objects.all()
+    c = Usuario.objects.all()
+    contexto = {'data': q, 'usuario': c}
+    return render(request, 'planning_travel/comentarios/comentarios.html', contexto)
+
+def comentarios_form(request):
+    q = Hotel.objects.all()
+    c = Usuario.objects.all()
+    contexto = {'data': q, 'usuario': c}
+    return render(request, 'planning_travel/comentarios/comentarios_form.html',contexto)
+
+def comentarios_crear(request):
+    if request.method == 'POST':
+        id_hotel = Hotel.objects.get(pk=request.POST.get('id_hotel'))
+        id_usuario = Usuario.objects.get(pk=request.POST.get('id_usuario'))
+        contenido = request.POST.get('contenido')
+        fecha = request.POST.get('fecha')
+
+        try:
+            q = Comentario(
+                id_hotel=id_hotel,
+                id_usuario=id_usuario,
+                contenido=contenido,
+                fecha=fecha
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('comentarios_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('comentarios_listar')
+    
+def comentarios_eliminar(request, id):
+    try:
+        q = Comentario.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Comentario eliminado correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+
+    return redirect('comentarios_listar')
+
+def comentarios_form_editar(request, id):
+    q = Comentario.objects.get(pk = id)
+    c = Hotel.objects.all()
+    e = Usuario.objects.all()
+    contexto = {'data': q, 'hotel': c, 'usuario': e}
+    return render(request, 'planning_travel/comentarios/comentarios_form_editar.html', contexto)
+
+
+def comentarios_actualizar(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        id_hotel = Hotel.objects.get(pk=request.POST.get("id_hotel"))
+        id_usuario = Usuario.objects.get(pk=request.POST.get("id_usuario"))
+        contenido = request.POST.get('contenido')
+        fecha = request.POST.get('fecha')
+        print(fecha)
+
+        try:
+            q = Comentario.objects.get(pk = id)
+            q.id_hotel = id_hotel
+            q.id_usuario = id_usuario
+            q.contenido = contenido
+            q.fecha = fecha
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        
+    return redirect('comentarios_listar')
+
+
+def roles(request):
+    consulta = Rol.objects.all()
+    context = {'data': consulta}
+    return render(request, 'planning_travel/roles/roles.html', context)
+
+def roles_form(request):
+    return render(request, 'planning_travel/roles/roles_form.html')
+def roles_crear(request):
+    if request.method == 'POST':
+        nombre= request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        permisos = request.POST.get('permisos')
+
+        try:
+            q = Rol(
+                nombre=nombre,
+                descripcion=descripcion,
+                permisos=permisos,
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('roles_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('roles_listar')
+    
+def roles_eliminar(request, id):
+    try:
+        q = Rol.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Rol eliminado correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+
+    return redirect('roles_listar')
+
+def roles_formulario_editar(request, id):
+
+    q = Rol.objects.get(pk = id)
+    contexto = {'data': q}
+
+    return render(request, 'planning_travel/roles/roles_form_editar.html', contexto)
+def roles_actualizar(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        nombre= request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        permisos = request.POST.get('permisos')
+
+        try:
+            q = Rol.objects.get(pk = id)
+            q.nombre= nombre
+            q.descripcion = descripcion
+            q.permisos = permisos
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+    else:
+            messages.warning(request,'No se enviaron datos')
+    return redirect('roles_listar')
+
+
+def favoritos(request):
+    consulta = Favorito.objects.all()
+    context = {'data': consulta}
+    return render(request, 'planning_travel/favoritos/favoritos.html', context)
+
+def favoritos_form(request):
+    q = Hotel.objects.all()
+    c = Usuario.objects.all()
+    contexto = {'data': q, 'usuario': c}
+    return render(request, 'planning_travel/favoritos/favoritos_form.html', contexto)
+
+def favoritos_crear(request):
+    if request.method == 'POST':
+        id_hotel = Hotel.objects.get(pk=request.POST.get('id_hotel'))
+        id_usuario = Usuario.objects.get(pk=request.POST.get('id_usuario'))
+        fecha_agregado = request.POST.get('fecha_agregado')
+
+        try:
+            q = Favorito(
+                id_hotel=id_hotel,
+                id_usuario=id_usuario,
+                fecha_agregado=fecha_agregado,
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('favoritos_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('favoritos_listar')
+
+def favoritos_eliminar(request, id):
+    try:
+        q = Favorito.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Hotel favorito eliminado correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+
+    return redirect('favoritos_listar')
+
+
+def favoritos_formulario_editar(request, id):
+    q = Favorito.objects.get(pk = id)
+    c = Hotel.objects.all()
+    e = Usuario.objects.all()
+    contexto = {'data': q, 'hotel': c, 'usuario': e}
+    return render(request, 'planning_travel/favoritos/favoritos_form_editar.html', contexto)
+
+
+def favoritos_actualizar(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        id_hotel = Hotel.objects.get(pk=request.POST.get("id_hotel"))
+        id_usuario = Usuario.objects.get(pk=request.POST.get("id_usuario"))
+        fecha_agregado = request.POST.get('fecha_agregado')
+
+        try:
+            q = Favorito.objects.get(pk = id)
+            q.id_hotel= id_hotel
+            q.id_usuario = id_usuario
+            q.fecha_agregado=fecha_agregado
+=======
 # Crud de fotos
 def fotos(request):
     q = Foto.objects.all()
@@ -346,12 +559,20 @@ def fotos_actualizar(request):
             q.id_hotel = hotel
             q.url_foto = url
             q.descripcion = descripcion
+>>>>>>> ec4f9b8d04c85013495e14467148acb359621971
             q.save()
             messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
     else:
         messages.warning(request,'No se enviaron datos')
+<<<<<<< HEAD
+        
+    return redirect('favoritos_listar')
+
+
+
+=======
     return redirect('hoteles_listar')
 
 # Crud de HotelComodidad
@@ -492,3 +713,4 @@ def reservas_actualizar(request):
     else:
         messages.warning(request,'No se enviaron datos')
     return redirect('reservas_listar')
+>>>>>>> ec4f9b8d04c85013495e14467148acb359621971
