@@ -53,7 +53,7 @@ class Usuario(models.Model):
         (3, "Cliente"),
     )
     rol = models.IntegerField(choices=ROLES, default=3)
-    foto = models.ImageField(upload_to="planning_travel/media/")
+    foto = models.CharField(max_length=254)
     # baneado = models.BooleanField()
 
     def __str__(self):
@@ -150,7 +150,7 @@ class Cliente(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=255)
     numero_contacto = models.CharField(max_length=15)
-    fotoPerfil = models.ImageField(upload_to="planning_travel/media/")
+    fotoPerfil = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.nombre}'
