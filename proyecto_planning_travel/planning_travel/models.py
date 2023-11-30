@@ -31,7 +31,7 @@ class Hotel(models.Model):
     descripcion = models.TextField()
     direccion = models.CharField(max_length=200)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
-    cantidad_habitaciones = models.IntegerField(default=0)
+    cantidad_habitaciones = models.IntegerField()
 
     def __str__(self):
         return f'{self.nombre}'
