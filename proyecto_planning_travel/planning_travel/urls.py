@@ -32,7 +32,6 @@ urlpatterns = [
     path('puntuaciones_actualizar/', views.puntuaciones_actualizar, name='puntuaciones_actualizar'),
     path('puntuaciones_eliminar/<int:id>', views.puntuaciones_eliminar, name='puntuaciones_eliminar'),
     path('puntuaciones_form_editar/<int:id>', views.puntuaciones_form_editar, name='puntuaciones_form_editar'),
-<<<<<<< HEAD
 
 
     # Crud de Comodidades
@@ -69,27 +68,4 @@ urlpatterns = [
     path('hoteles_categorias_eliminar/<int:id>', views.hoteles_categorias_eliminar, name="hoteles_categorias_eliminar"),
     path('hoteles_categorias_form_editar/<int:id>', views.hoteles_categorias_form_editar, name='hoteles_categorias_form_editar'),
     path('hoteles_categorias_actualizar/', views.hoteles_categorias_actualizar, name='hoteles_categorias_actualizar'),
-=======
-    # Crud de Fotos
-    path('fotos_listar/', views.fotos, name='fotos_listar'),
-    path('fotos_form/', views.fotos_form, name='fotos_form'),
-    path('fotos_crear/', views.fotos_crear, name='fotos_crear'),
-    path('fotos_actualizar/', views.fotos_actualizar, name='fotos_actualizar'),
-    path('fotos_eliminar/<int:id>', views.fotos_eliminar, name='fotos_eliminar'),
-    path('fotos_form_editar/<int:id>', views.fotos_form_editar, name='fotos_form_editar'),
-    # Crud de hotelComodidad
-    path('hoteles_comodidades_listar/', views.hoteles_comodidades, name='hoteles_comodidades_listar'),
-    path('hoteles_comodidades_form/', views.hoteles_comodidades_form, name='hoteles_comodidades_form'),
-    path('hoteles_comodidades_crear/', views.hoteles_comodidades_crear, name='hoteles_comodidades_crear'),
-    path('hoteles_comodidades_actualizar/', views.hoteles_comodidades_actualizar, name='hoteles_comodidades_actualizar'),
-    path('hoteles_comodidades_eliminar/<int:id>', views.hoteles_comodidades_eliminar, name='hoteles_comodidades_eliminar'),
-    path('hoteles_comodidades_form_editar/<int:id>', views.hoteles_comodidades_form_editar, name='hoteles_comodidades_form_editar'),
-    # Crud de Reservas
-    path('reservas_listar/', views.reservas, name='reservas_listar'),
-    path('reservas_form/', views.reservas_form, name='reservas_form'),
-    path('reservas_crear/', views.reservas_crear, name='reservas_crear'),
-    path('reservas_actualizar/', views.reservas_actualizar, name='reservas_actualizar'),
-    path('reservas_eliminar/<int:id>', views.reservas_eliminar, name='reservas_eliminar'),
-    path('reservas_form_editar/<int:id>', views.reservas_form_editar, name='reservas_form_editar'),
->>>>>>> ec4f9b8d04c85013495e14467148acb359621971
 ]
