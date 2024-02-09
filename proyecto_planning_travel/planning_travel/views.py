@@ -595,7 +595,7 @@ def hoteles_categorias_actualizar(request):
 
 # Crud reportes
 def reportes(request):
-    consulta = Reportes.objects.all()
+    consulta = Reporte.objects.all()
     context = {'data': consulta}
     return render(request, 'planning_travel/reportes/reportes.html', context)
 
@@ -610,7 +610,7 @@ def reportes_crear(request):
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         try:
-            q = Reportes(
+            q = Reporte(
                 id_usuario=id_usuario,
                 nombre= nombre,
                 descripcion= descripcion
@@ -632,7 +632,7 @@ def reportes_actualizar(request):
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         try:
-            q = Reportes.objects.get(pk = id)
+            q = Reporte.objects.get(pk = id)
             q.id_usuario=id_usuario
             q.nombre = nombre
             q.descripcion = descripcion
@@ -647,7 +647,7 @@ def reportes_actualizar(request):
 
 def reportes_eliminar(request, id):
     try:
-        q = Reportes.objects.get(pk = id)
+        q = Reporte.objects.get(pk = id)
         q.delete()
         messages.success(request, 'Reporte eliminado correctamente!!')
     except Exception as e:
@@ -657,7 +657,7 @@ def reportes_eliminar(request, id):
 
 def reportes_form_editar(request, id):
     q = Usuario.objects.all()
-    r = Reportes.objects.get(pk = id)
+    r = Reporte.objects.get(pk = id)
     context = { 'usuario' : q , 'data' : r }
     return render(request, 'planning_travel/reportes/reportes_form_editar.html', context)
 
@@ -669,14 +669,14 @@ def reportesModerador(request):
 
 def reportesModerador_form(request):
     q = Usuario.objects.all()
-    r = Reportes.objects.all()
+    r = Reporte.objects.all()
     context = { 'usuario' : q , 'reporte' : r }
     return render(request, 'planning_travel/reportesModerador/reportesModerador_form.html', context)
 
 def reportesModerador_crear(request):
     if request.method == 'POST':
         id_usuario = Usuario.objects.get(pk = request.POST.get('id_usuario'))
-        id_reporte = Reportes.objects.get(pk = request.POST.get('id_reporte'))
+        id_reporte = Reporte.objects.get(pk = request.POST.get('id_reporte'))
         fecha_inicio = request.POST.get('fecha_inicio')
         fecha_fin = request.POST.get('fecha_fin')
         try:
@@ -707,14 +707,14 @@ def reportesModerador_eliminar(request, id):
 def reportesModerador_form_editar(request, id):
     q = ReporteModerador.objects.get(pk = id)
     u = Usuario.objects.all()
-    r = Reportes.objects.all()
+    r = Reporte.objects.all()
     context = {'data': q, 'usuario': u, 'reporte':r}
     return render(request, 'planning_travel/reportesModerador/reportesModerador_form_editar.html', context)
 
 def reportesModerador_actualizar(request):
     if request.method == 'POST':
         id = request.POST.get('id')
-        id_reporte = Reportes.objects.get(pk = request.POST.get('id_reporte'))
+        id_reporte = Reporte.objects.get(pk = request.POST.get('id_reporte'))
         id_usuario = Usuario.objects.get(pk = request.POST.get('id_usuario'))
         fecha_inicio = request.POST.get('fecha_inicio')
         fecha_fin = request.POST.get('fecha_fin')
