@@ -9,6 +9,18 @@ class CategoriaAdmin(admin.ModelAdmin):
     list_display = ['id', 'nombre', 'descripcion']
     search_fields = ['nombre']
 
+@admin.register(Reportes)
+class ReporteAdmin(admin.ModelAdmin):
+    list_display = ['id','id_usuario', 'nombre', 'descripcion'] 
+
+@admin.register(ReporteModerador)
+class ReporteModeradorAdmin(admin.ModelAdmin):
+    list_display = ['id_reporte', 'id_usuario', 'fecha_inicio', 'fecha_fin']
+
+@admin.register(PerfilUsuario)
+class PerfilUsuarioAdmin(admin.ModelAdmin):
+    list_display = ['id_hotel', 'id_usuario', 'nombre', 'numero_contacto', 'fotoPerfil']
+
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['id', 'nombre', 'precio', 'inventario', 'fecha_creacion', 'categoria']
@@ -21,17 +33,13 @@ class HotelAdmin(admin.ModelAdmin):
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nombre', 'nombre_en_plural', 'correo', 'contrasena', 'rol', 'ver_foto','foto']
+    list_display = ['id', 'nombre', 'nombre_en_plural', 'correo', 'contrasena', 'rol','foto']
 
     def nombre_en_plural(self, obj):
         return mark_safe(
             f'<span style="color: #FFC107;">{obj.nombre}s</span>'
         )
 
-    def ver_foto(self, obj):
-        return mark_safe(
-            f'<img src="{obj.foto.url}" width="10%">'
-        )
 
 admin.site.register(Cliente)
 admin.site.register(Comentario)
