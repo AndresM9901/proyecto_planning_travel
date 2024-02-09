@@ -31,7 +31,7 @@ class Hotel(models.Model):
     descripcion = models.TextField()
     direccion = models.CharField(max_length=200)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
-    cantidad_habitaciones = models.IntegerField(default=0)
+    cantidad_habitaciones = models.IntegerField()
 
     def __str__(self):
         return f'{self.nombre}'
@@ -111,7 +111,7 @@ class Habitacion(models.Model):
     id_hotel = models.ForeignKey(Hotel, on_delete=models.DO_NOTHING)
     ocupado = models.BooleanField()
     capacidad_huesped = models.IntegerField()
-    tipoHabitacion = models.CharField(max_length=255)
+    tipo_habitacion = models.CharField(max_length=255)
     foto = models.ForeignKey(Foto, on_delete=models.DO_NOTHING)
     precio = models.DecimalField(max_digits=250, decimal_places=2)
 
@@ -122,7 +122,7 @@ class Reserva(models.Model):
     habitacion = models.ForeignKey(Habitacion, on_delete=models.DO_NOTHING)
     fecha_llegada = models.DateField()
     fecha_salida = models.DateField()
-    cantidadPersonas = models.IntegerField()
+    cantidad_personas = models.IntegerField()
 
     def __str__(self):
         return f'{self.habitacion}'
@@ -141,7 +141,7 @@ class PerfilUsuario(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=255)
     numero_contacto = models.CharField(max_length=15)
-    fotoPerfil = models.CharField(max_length=255)
+    foto_perfil = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.id_hotel}'
@@ -150,12 +150,12 @@ class Cliente(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=255)
     numero_contacto = models.CharField(max_length=15)
-    fotoPerfil = models.ImageField(upload_to="planning_travel/media/")
+    foto_perfil = models.ImageField(upload_to="planning_travel/media/")
 
     def __str__(self):
         return f'{self.nombre}'
 
-class Reportes(models.Model):
+class Reporte(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255)
@@ -164,7 +164,7 @@ class Reportes(models.Model):
         return f'{self.id_usuario}'
 
 class ReporteModerador(models.Model):
-    id_reporte = models.ForeignKey(Reportes, on_delete=models.DO_NOTHING)
+    id_reporte = models.ForeignKey(Reporte, on_delete=models.DO_NOTHING)
     id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
     fecha_inicio = models.DateTimeField()
     fecha_fin = models.DateField()

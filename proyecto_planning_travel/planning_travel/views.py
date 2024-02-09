@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
+from .serializers import *
+from rest_framework import viewsets
 
 # Create your views here.
 def inicio(request):
@@ -26,7 +28,7 @@ def categorias_crear(request):
                 descripcion=descripcion
             )
             q.save()
-            messages.success(request, "Fue creado correctamente")
+            messages.success(request, "Fue agregado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
 
@@ -70,25 +72,27 @@ def categorias_actualizar(request):
         
     return redirect('categorias_listar')
 
-
 def index(request):
     return render(request, 'planning_travel/login/login.html')
 
 # Crud de Usuarios
+
 def usuarios(request):
     q = Usuario.objects.all()
     contexto = {'data': q}
     return render(request, 'planning_travel/login/usuarios.html', contexto)
 
 def usuarios_form(request):
-    return render(request, 'planning_travel/login/usuarios_form.html')
+    q = Rol.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/login/usuarios_form.html', contexto)
 
 def usuarios_crear(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
-        rol = request.POST.get("rol")
+        rol = Usuario.objects.get(pk=request.POST.get("rol"))
         foto = request.FILES.get('foto')
         try:
             q = Usuario(
@@ -99,7 +103,7 @@ def usuarios_crear(request):
                 foto=foto,
             )
             q.save()
-            messages.success(request, "Fue creado correctamente")
+            messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
 
@@ -130,7 +134,7 @@ def usuarios_actualizar(request):
         nombre = request.POST.get('nombre')
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
-        rol = request.POST.get('rol')
+        rol = Rol.objects.get(pk=request.POST.get('rol'))
         foto = request.POST.get('foto')
         try:
             q = Usuario.objects.get(pk = id)
@@ -149,6 +153,7 @@ def usuarios_actualizar(request):
     return redirect('usuarios_listar')
 
 # Crud de Hoteles
+
 def hoteles(request):
     q = Hotel.objects.all()
     contexto = {'data': q}
@@ -165,17 +170,17 @@ def hoteles_crear(request):
         descripcion = request.POST.get('descripcion')
         direccion = request.POST.get('direccion')
         categoria = Categoria.objects.get(pk=request.POST.get('categoria'))
-        cantidad_habitaciones = request.POST.get('cantidad_habitaciones')
+        cantidad_habitacion = request.POST.get('cantidad_habitacion')
         try:
             q = Hotel(
                 nombre=nombre,
                 descripcion=descripcion,
                 direccion=direccion,
                 categoria=categoria,
-                cantidad_habitaciones=cantidad_habitaciones,
+                cantidad_habitacion=cantidad_habitacion,
             )
             q.save()
-            messages.success(request, "Fue creado correctamente")
+            messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
 
@@ -208,23 +213,23 @@ def hoteles_actualizar(request):
         descripcion = request.POST.get('descripcion')
         direccion = request.POST.get('direccion')
         categoria = Categoria.objects.get(pk=request.POST.get("categoria"))
-        cantidad_habitaciones = request.POST.get('cantidad_habitaciones')
+        cantidad_habitacion = request.POST.get('cantidad_habitacion')
         try:
             q = Hotel.objects.get(pk = id)
             q.nombre = nombre
             q.descripcion = descripcion
             q.direccion = direccion
             q.categoria = categoria
-            q.cantidad_habitaciones = cantidad_habitaciones
+            q.cantidad_habitacion = cantidad_habitacion
             q.save()
             messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
     else:
         messages.warning(request,'No se enviaron datos')
-    return redirect('hoteles_listar')
 
 # Crud de puntuacion
+
 def puntuaciones(request):
     q = Puntuacion.objects.all()
     contexto = {'data': q}
@@ -239,14 +244,13 @@ def puntuaciones_crear(request):
     if request.method == 'POST':
         comentario = Comentario.objects.get(pk=request.POST.get('comentario'))
         valoracion = request.POST.get('valoracion')
-        print(comentario)
         try:
             q = Puntuacion(
-                id_comentario=comentario,
+                comentario=comentario,
                 valoracion=valoracion,
             )
             q.save()
-            messages.success(request, "Fue creado correctamente")
+            messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
 
@@ -262,9 +266,7 @@ def puntuaciones_eliminar(request, id):
         messages.success(request, 'Puntuacion eliminada correctamente!!')
     except Exception as e:
         messages.error(request,f'Error: {e}')
-
-    return redirect('puntuaciones_listar')
-
+        
 def puntuaciones_form_editar(request, id):
     q = Puntuacion.objects.get(pk = id)
     c = Comentario.objects.all()
@@ -277,8 +279,8 @@ def puntuaciones_actualizar(request):
         comentario = Comentario.objects.get(pk=request.POST.get('comentario'))
         valoracion = request.POST.get('valoracion')
         try:
-            q = Puntuacion.objects.get(pk = id)
-            q.id_comentario = comentario
+            q = Usuario.objects.get(pk = id)
+            q.comentario = comentario
             q.valoracion = valoracion
             q.save()
             messages.success(request, "Fue actualizado correctamente")
@@ -289,62 +291,58 @@ def puntuaciones_actualizar(request):
 
     return redirect('puntuaciones_listar')
 
-# Crud de fotos
-def fotos(request):
-    q = Foto.objects.all()
-    contexto = {'data': q}
-    return render(request, 'planning_travel/fotos/fotos.html', contexto)
+# Crud Comodidades
 
-def fotos_form(request):
-    q = Hotel.objects.all()
+def comodidades(request):
+    q = Comodidad.objects.all()
     contexto = {'data': q}
-    return render(request, 'planning_travel/fotos/fotos_form.html', contexto)
+    return render(request, 'planning_travel/comodidades/comodidad.html', contexto)
 
-def fotos_crear(request):
+def comodidades_form(request):
+    return render(request, 'planning_travel/comodidades/comodidad_form.html')
+
+def comodidades_crear(request):
     if request.method == 'POST':
-        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
-        url = request.FILES.get('url')
+        nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         try:
-            q = Foto(
-                id_hotel=hotel,
-                url_foto=url,
+            q = Comodidad(
+                nombre=nombre,
                 descripcion=descripcion
             )
             q.save()
-            messages.success(request, "Fue creado correctamente")
+            messages.success(request, "Fue agregado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
+
+        return redirect('comodidades_listar')
     else:
         messages.warning(request,'No se enviaron datos')
-    return redirect('fotos_listar')
-
-def fotos_eliminar(request, id):
+        return redirect('comodidades_listar')
+    
+def comodidades_eliminar(request, id):
     try:
-        q = Foto.objects.get(pk = id)
+        q = Comodidad.objects.get(pk = id)
         q.delete()
-        messages.success(request, 'Foto eliminada correctamente!!')
+        messages.success(request, 'Comodidad eliminada correctamente!!')
     except Exception as e:
         messages.error(request,f'Error: {e}')
 
-    return redirect('fotos_listar')
+    return redirect('comodidades_listar')
 
-def fotos_form_editar(request, id):
-    q = Foto.objects.get(pk = id)
-    h = Hotel.objects.all()
-    contexto = {'data': q, 'hotel': h}
-    return render(request, 'planning_travel/fotos/fotos_form_editar.html', contexto)
+def comodidades_form_editar(request, id):
+    q = Comodidad.objects.get(pk = id)
+    contexto = {'data': q}
+    return render(request, 'planning_travel/comodidades/comodidad_form_editar.html', contexto)
 
-def fotos_actualizar(request):
+def comodidades_actualizar(request):
     if request.method == 'POST':
         id = request.POST.get('id')
-        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
-        url = request.FILES.get('url')
+        nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         try:
-            q = Foto.objects.get(pk = id)
-            q.id_hotel = hotel
-            q.url_foto = url
+            q = Comodidad.objects.get(pk = id)
+            q.nombre = nombre
             q.descripcion = descripcion
             q.save()
             messages.success(request, "Fue actualizado correctamente")
@@ -352,143 +350,323 @@ def fotos_actualizar(request):
             messages.error(request,f'Error: {e}')
     else:
         messages.warning(request,'No se enviaron datos')
-    return redirect('hoteles_listar')
+        
+    return redirect('comodidades_listar')
 
-# Crud de HotelComodidad
-def hoteles_comodidades(request):
-    q = HotelComodidad.objects.all()
-    contexto = {'data': q}
-    return render(request, 'planning_travel/hoteles_comodidades/hoteles_comodidades.html', contexto)
+# Crud habitaciones
 
-def hoteles_comodidades_form(request):
-    q = Hotel.objects.all()
-    c = Comodidad.objects.all()
-    contexto = {'hotel': q, 'comodidad': c}
-    return render(request, 'planning_travel/hoteles_comodidades/hoteles_comodidades_form.html', contexto)
-
-def hoteles_comodidades_crear(request):
-    if request.method == 'POST':
-        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
-        comodidad = Comodidad.objects.get(pk=request.POST.get('comodidad'))
-        dispone = request.POST.get('dispone')
-        dispone = True if dispone == 'on' else False
-        try:
-            q = HotelComodidad(
-                id_hotel=hotel,
-                id_comodidad=comodidad,
-                dispone=dispone
-            )
-            q.save()
-            messages.success(request, "Fue creado correctamente")
-        except Exception as e:
-            messages.error(request,f'Error: {e}')
-    else:
-        messages.warning(request,'No se enviaron datos')
-    return redirect('hoteles_comodidades_listar')
-
-def hoteles_comodidades_eliminar(request, id):
-    try:
-        q = HotelComodidad.objects.get(pk = id)
-        q.delete()
-        messages.success(request, 'HotelComodidad eliminada correctamente!!')
-    except Exception as e:
-        messages.error(request,f'Error: {e}')
-
-    return redirect('hoteles_comodidades_listar')
-
-def hoteles_comodidades_form_editar(request, id):
-    q = HotelComodidad.objects.get(pk = id)
-    h = Hotel.objects.all()
-    c = Comodidad.objects.all()
-    contexto = {'data': q, 'hotel': h, 'comodidad': c}
-    return render(request, 'planning_travel/hoteles_comodidades/hoteles_comodidades_form_editar.html', contexto)
-
-def hoteles_comodidades_actualizar(request):
-    if request.method == 'POST':
-        id = request.POST.get('id')
-        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
-        comodidad = Comodidad.objects.get(pk=request.POST.get('comodidad'))
-        dispone = request.POST.get('dispone')
-        dispone = True if dispone == 'on' else False
-        try:
-            q = HotelComodidad.objects.get(pk = id)
-            q.id_hotel = hotel
-            q.id_comodidad = comodidad
-            q.dispone = dispone
-            q.save()
-            messages.success(request, "Fue actualizado correctamente")
-        except Exception as e:
-            messages.error(request,f'Error: {e}')
-    else:
-        messages.warning(request,'No se enviaron datos')
-    return redirect('hoteles_comodidades_listar')
-
-# Crud de Reservas
-def reservas(request):
-    q = Reserva.objects.all()
-    contexto = {'data': q}
-    return render(request, 'planning_travel/reservas/reservas.html', contexto)
-
-def reservas_form(request):
+def habitaciones(request):
     q = Habitacion.objects.all()
     contexto = {'data': q}
-    return render(request, 'planning_travel/reservas/reservas_form.html', contexto)
+    return render(request, 'planning_travel/habitaciones/habitaciones.html', contexto)
 
-def reservas_crear(request):
+def habitaciones_form(request):
+    q = Hotel.objects.all()
+    c = Foto.objects.all()
+    contexto = {'data': q, 'foto': c}
+    
+    return render(request, 'planning_travel/habitaciones/habitaciones_form.html', contexto)
+
+def habitaciones_crear(request):
     if request.method == 'POST':
-        habitacion = Habitacion.objects.get(pk=request.POST.get('habitacion'))
-        fecha_llegada = request.POST.get('fecha_llegada')
-        fecha_salida = request.POST.get('fecha_salida')
-        cantidad_personas = request.POST.get('cantidad_personas')
-        print(fecha_llegada)
+        num_habitacion = request.POST.get('num_habitacion')
+        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
+        ocupado = request.POST.get('ocupado')
+        ocupado = True if ocupado == 'on' else False    
+        capacidad_huesped = request.POST.get('capacidad_huesped')
+        tipoHabitacion = request.POST.get('tipoHabitacion')
+        foto =  Foto.objects.get(pk=request.POST.get('foto'))
+        precio = request.POST.get('precio')
+        print(foto)
         try:
-            q = Reserva(
-                habitacion=habitacion,
-                fecha_llegada=fecha_llegada,
-                fecha_salida=fecha_salida,
-                cantidadPersonas=cantidad_personas
+            q = Habitacion(
+                num_habitacion = num_habitacion,
+                id_hotel = hotel,
+                ocupado = ocupado,
+                capacidad_huesped = capacidad_huesped,
+                tipoHabitacion = tipoHabitacion,
+                foto = foto,
+                precio = precio
             )
-            q.save()
-            messages.success(request, "Fue creado correctamente")
-        except Exception as e:
-            messages.error(request,f'Error: {e}')
-    else:
-        messages.warning(request,'No se enviaron datos')
-    return redirect('reservas_listar')
-
-def reservas_eliminar(request, id):
-    try:
-        q = Reserva.objects.get(pk = id)
-        q.delete()
-        messages.success(request, 'Reserva eliminada correctamente!!')
-    except Exception as e:
-        messages.error(request,f'Error: {e}')
-
-    return redirect('reservas_listar')
-
-def reservas_form_editar(request, id):
-    q = Reserva.objects.get(pk = id)
-    h = Habitacion.objects.all()
-    contexto = {'data': q, 'habitacion': h}
-    return render(request, 'planning_travel/reservas/reservas_form_editar.html', contexto)
-
-def reservas_actualizar(request):
-    if request.method == 'POST':
-        id = request.POST.get('id')
-        habitacion = Habitacion.objects.get(pk=request.POST.get('habitacion'))
-        fecha_llegada = request.POST.get('fecha_llegada')
-        fecha_salida = request.POST.get('fecha_salida')
-        cantidad_personas = request.POST.get('cantidad_personas')
-        try:
-            q = Reserva.objects.get(pk = id)
-            q.id_habitacion = habitacion
-            q.fecha_llegada = fecha_llegada
-            q.fecha_salida = fecha_salida
-            q.cantidadPersonas = cantidad_personas
             q.save()
             messages.success(request, "Fue actualizado correctamente")
         except Exception as e:
             messages.error(request,f'Error: {e}')
+
+        return redirect('habitaciones_listar')
     else:
         messages.warning(request,'No se enviaron datos')
-    return redirect('reservas_listar')
+        return redirect('habitaciones_listar')
+
+def habitaciones_eliminar(request, id):
+    try:
+        q = Habitacion.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Habitación eliminada correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+    
+    return redirect("habitaciones_listar")
+
+def habitaciones_form_editar(request, id):
+    c = Foto.objects.all()
+    q = Hotel.objects.all()
+    r = Habitacion.objects.get(pk = id)
+    contexto = {'data': q, 'foto' : c, 'habitacion': r }
+    return render(request, 'planning_travel/habitaciones/habitaciones_form_editar.html', contexto)
+
+def habitaciones_actualizar(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        num_habitacion = request.POST.get('num_habitacion')
+        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
+        ocupado = request.POST.get('ocupado')
+        ocupado = True if ocupado == 'on' else False    
+        capacidad_huesped = request.POST.get('capacidad_huesped')
+        tipoHabitacion = request.POST.get('tipoHabitacion')
+        foto =  Foto.objects.get(pk=request.POST.get('foto'))
+        precio = request.POST.get('precio')
+        try:
+            q = Habitacion.objects.get(pk = id)
+            q.num_habitacion = num_habitacion
+            q.id_hotel = hotel
+            q.ocupado = ocupado
+            q.capacidad_huesped = capacidad_huesped
+            q.tipoHabitacion = tipoHabitacion
+            q.foto = foto
+            q.precio = precio
+          
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        
+    return redirect('habitaciones_listar')
+
+# Crud ReservaUsuarios
+
+def reservas_usuarios(request):
+    q = ReservaUsuario.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/reservas_usuarios/reservas_usuarios.html', contexto)
+
+def reservas_usuarios_form(request):
+    q = Usuario.objects.all()
+    c = Reserva.objects.all()
+    contexto = {'data': q, 'reserva': c}
+    
+    return render(request, 'planning_travel/reservas_usuarios/reservas_usuarios_form.html', contexto)
+
+def reservas_usuarios_crear(request):
+    if request.method == 'POST':
+        
+        usuario = Usuario.objects.get(pk=request.POST.get('usuario'))
+        reserva = Reserva.objects.get(pk=request.POST.get('reserva'))
+        estado_reserva = request.POST.get('estado_reserva')
+        fecha_realizacion = request.POST.get('fecha_realizacion')
+        try:
+            q = ReservaUsuario(
+                usuario = usuario,
+                reserva = reserva,
+                estado_reserva = estado_reserva,
+                fecha_realizacion = fecha_realizacion
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('reservas_usuarios_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('reservas_usuarios_listar')
+
+def reservas_usuarios_eliminar(request, id):
+    try:
+        q = ReservaUsuario.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Habitación eliminada correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+    
+    return redirect("reservas_usuarios_listar") 
+
+def reservas_usuarios_form_editar(request, id):
+    c = Usuario.objects.all()
+    q = Reserva.objects.all()
+    r = ReservaUsuario.objects.get(pk = id)
+    contexto = {'data': r, 'usuario' : c, 'reserva': q }
+    return render(request, 'planning_travel/reservas_usuarios/reservas_usuarios_form_editar.html', contexto)
+
+def reservas_usuarios_actualizar(request):
+    if request.method == 'POST': 
+        id = request.POST.get('id')    
+        usuario = Usuario.objects.get(pk=request.POST.get('usuario'))
+        reserva = Reserva.objects.get(pk=request.POST.get('reserva'))
+        estado_reserva = request.POST.get('estado_reserva')
+        fecha_realizacion = request.POST.get('fecha_realizacion')
+        try:
+            q = ReservaUsuario.objects.get(pk = id)
+            q.usuario = usuario
+            q.reserva = reserva
+            q.estado_reserva = estado_reserva
+            q.fecha_realizacion = fecha_realizacion
+          
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        
+    return redirect('reservas_usuarios_listar')
+
+#Crud HotelCategoria
+
+def hoteles_categorias(request):
+    q = HotelCategoria.objects.all()
+    contexto = {'data': q}
+    return render(request, 'planning_travel/hoteles_categorias/hoteles_categorias.html', contexto)
+
+def hoteles_categorias_form(request):
+    q = Hotel.objects.all()
+    c = Categoria.objects.all()
+    contexto = {'data': q, 'categoria': c}
+    return render(request, 'planning_travel/hoteles_categorias/hoteles_categorias_form.html', contexto)
+
+def hoteles_categorias_crear(request):
+    if request.method == 'POST':
+        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
+        categoria = Categoria.objects.get(pk=request.POST.get('categoria'))
+        try:
+            q = HotelCategoria(
+                id_hotel = hotel,
+                id_categoria = categoria,
+            )
+            q.save()
+            messages.success(request, "Fue agregado correctamente")
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+
+        return redirect('hoteles_categorias_listar')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        return redirect('hoteles_categorias_listar')
+    
+def hoteles_categorias_eliminar(request, id):
+    try:
+        q = HotelCategoria.objects.get(pk = id)
+        q.delete()
+        messages.success(request, 'Hoteles categorias eliminada correctamente!!')
+    except Exception as e:
+        messages.error(request,f'Error: {e}')
+    
+    return redirect("hoteles_categorias_listar") 
+
+def hoteles_categorias_form_editar(request, id):
+    c = Hotel.objects.all()
+    q = Categoria.objects.all()
+    r = HotelCategoria.objects.get(pk = id)
+    contexto = {'data': r, 'hotel' : c, 'categoria': q }
+    return render(request, 'planning_travel/hoteles_categorias/hoteles_categorias_form_editar.html', contexto)
+
+def hoteles_categorias_actualizar(request):
+    if request.method == 'POST': 
+        id = request.POST.get('id')    
+        hotel = Hotel.objects.get(pk=request.POST.get('hotel'))
+        categoria = Categoria.objects.get(pk=request.POST.get('categoria'))
+        try:
+            q = HotelCategoria.objects.get(pk = id)
+            q.id_hotel = hotel
+            q.id_categoria = categoria
+            q.save()
+            messages.success(request, "Fue actualizado correctamente")
+
+        except Exception as e:
+            messages.error(request,f'Error: {e}')
+    else:
+        messages.warning(request,'No se enviaron datos')
+        
+    return redirect('hoteles_categorias_listar')
+
+
+# api base de datos
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class RolViewSet(viewsets.ModelViewSet):
+    queryset = Rol.objects.all()
+    serializer_class = RolSerializer
+
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
+class HotelViewSet(viewsets.ModelViewSet):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class ComodidadViewSet(viewsets.ModelViewSet):
+    queryset = Comodidad.objects.all()
+    serializer_class = ComodidadSerializer
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+class FavoritoViewSet(viewsets.ModelViewSet):
+    queryset = Favorito.objects.all()
+    serializer_class = FavoritoSeralizer
+
+class ComentarioViewSet(viewsets.ModelViewSet):
+    queryset = Comentario.objects.all()
+    serializer_class = ComentarioSerializer
+
+class PuntuacionViewSet(viewsets.ModelViewSet):
+    queryset = Puntuacion.objects.all()
+    serializer_class = PuntuacionSerializer
+
+class FotoViewSet(viewsets.ModelViewSet):
+    queryset = Foto.objects.all()
+    serializer_class = FotoSerializer
+
+class HotelComodidadViewSet(viewsets.ModelViewSet):
+    queryset = HotelComodidad.objects.all()
+    serializer_class = HotelComodidadSerializer
+
+class HotelCategoriaViewSet(viewsets.ModelViewSet):
+    queryset = HotelCategoria.objects.all()
+    serializer_class = HotelCategoriaSerializer
+
+class HabitacionViewSet(viewsets.ModelViewSet):
+    queryset = Habitacion.objects.all()
+    serializer_class = HabitacionSerializer
+
+class ReservaViewSet(viewsets.ModelViewSet):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaSerializer
+
+class ReservaUsuarioViewSet(viewsets.ModelViewSet):
+    queryset = ReservaUsuario.objects.all()
+    serializer_class = ReservaUsuarioSerializer
+
+class PerfilUsuarioViewSet(viewsets.ModelViewSet):
+    queryset = PerfilUsuario.objects.all()
+    serializer_class = PerfilUsuarioSerializer
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+
+class ReporteViewSet(viewsets.ModelViewSet):
+    queryset = Reporte.objects.all()
+    serializer_class = ReporteSerializer
+
+class ReporteModeradorViewSet(viewsets.ModelViewSet):
+    queryset = ReporteModerador.objects.all()
+    serializer_class = ReporteModeradorSerializer
