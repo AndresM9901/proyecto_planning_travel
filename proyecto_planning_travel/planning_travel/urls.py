@@ -1,8 +1,31 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'categoria', views.CategoriaViewSet)
+router.register(r'rol', views.RolViewSet)
+router.register(r'producto', views.ProductoViewSet)
+router.register(r'hotel', views.HotelViewSet)
+router.register(r'comodidad', views.ComodidadViewSet)
+router.register(r'usuario', views.UsuarioViewSet)
+router.register(r'favorito', views.FavoritoViewSet)
+router.register(r'comentario', views.ComentarioViewSet)
+router.register(r'puntucion', views.PuntuacionViewSet)
+router.register(r'foto', views.FotoViewSet)
+router.register(r'hotel-comodidad', views.HotelComodidadViewSet)
+router.register(r'hotel-categoria', views.HotelCategoriaViewSet)
+router.register(r'habitacion', views.HabitacionViewSet)
+router.register(r'reserva', views.ReservaViewSet)
+router.register(r'reserva-usuario', views.ReservaUsuarioViewSet)
+router.register(r'perfil-usuario', views.PerfilUsuarioViewSet)
+router.register(r'cliente', views.ClienteViewSet)
+router.register(r'reporte', views.ReporteViewSet)
+router.register(r'reporte-moderador', views.ReporteModeradorViewSet)
 
 urlpatterns = [
     path('inicio/', views.inicio, name="inicio"),
+    path('api/1.0/', include(router.urls)),
     # path('', views.index, name="index"),
     # Crud de Categorias
     path('categorias_listar/', views.categorias, name="categorias_listar"),

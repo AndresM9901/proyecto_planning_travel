@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
+from .serializers import *
+from rest_framework import viewsets
 
 # Create your views here.
 def inicio(request):
@@ -69,7 +71,6 @@ def categorias_actualizar(request):
         messages.warning(request,'No se enviaron datos')
         
     return redirect('categorias_listar')
-
 
 def index(request):
     return render(request, 'planning_travel/login/login.html')
@@ -591,3 +592,81 @@ def hoteles_categorias_actualizar(request):
         messages.warning(request,'No se enviaron datos')
         
     return redirect('hoteles_categorias_listar')
+
+
+# api base de datos
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class RolViewSet(viewsets.ModelViewSet):
+    queryset = Rol.objects.all()
+    serializer_class = RolSerializer
+
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
+class HotelViewSet(viewsets.ModelViewSet):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class ComodidadViewSet(viewsets.ModelViewSet):
+    queryset = Comodidad.objects.all()
+    serializer_class = ComodidadSerializer
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+class FavoritoViewSet(viewsets.ModelViewSet):
+    queryset = Favorito.objects.all()
+    serializer_class = FavoritoSeralizer
+
+class ComentarioViewSet(viewsets.ModelViewSet):
+    queryset = Comentario.objects.all()
+    serializer_class = ComentarioSerializer
+
+class PuntuacionViewSet(viewsets.ModelViewSet):
+    queryset = Puntuacion.objects.all()
+    serializer_class = PuntuacionSerializer
+
+class FotoViewSet(viewsets.ModelViewSet):
+    queryset = Foto.objects.all()
+    serializer_class = FotoSerializer
+
+class HotelComodidadViewSet(viewsets.ModelViewSet):
+    queryset = HotelComodidad.objects.all()
+    serializer_class = HotelComodidadSerializer
+
+class HotelCategoriaViewSet(viewsets.ModelViewSet):
+    queryset = HotelCategoria.objects.all()
+    serializer_class = HotelCategoriaSerializer
+
+class HabitacionViewSet(viewsets.ModelViewSet):
+    queryset = Habitacion.objects.all()
+    serializer_class = HabitacionSerializer
+
+class ReservaViewSet(viewsets.ModelViewSet):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaSerializer
+
+class ReservaUsuarioViewSet(viewsets.ModelViewSet):
+    queryset = ReservaUsuario.objects.all()
+    serializer_class = ReservaUsuarioSerializer
+
+class PerfilUsuarioViewSet(viewsets.ModelViewSet):
+    queryset = PerfilUsuario.objects.all()
+    serializer_class = PerfilUsuarioSerializer
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+
+class ReporteViewSet(viewsets.ModelViewSet):
+    queryset = Reporte.objects.all()
+    serializer_class = ReporteSerializer
+
+class ReporteModeradorViewSet(viewsets.ModelViewSet):
+    queryset = ReporteModerador.objects.all()
+    serializer_class = ReporteModeradorSerializer
