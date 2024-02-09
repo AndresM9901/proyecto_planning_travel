@@ -1,29 +1,23 @@
 {% extends 'planning_travel/base.html' %} 
 {% load static %} 
-{% block titulo %}Hoteles{% endblock %}
+{% block titulo %}Puntuaciones{% endblock %}
 {% block contenedor %}
-    <h1>Hoteles</h1>
-    <a class="btn btn-success" href="{% url 'hoteles_form' %}">Agregar Hoteles</a>
+    <h1>Puntuaciones</h1>
+    <a class="btn btn-success" href="{% url 'puntuaciones_form' %}">Agregar Puntuacion</a>
 
     <table class="table">
         <thead>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Direccion</th>
-            <th>Categoria</th>
-            <th>Cantidad de habitaciones</th>
+            <th>Comentario</th>
+            <th>Valoracion</th>
             <th>Acciones</th>
         </thead>
         <tbody>
             {% for r in data %}
             <tr>
                 <td>{{ r.id }}</td>
-                <td>{{ r.nombre }}</td>
-                <td>{{ r.descripcion }}</td>
-                <td>{{ r.direccion }}</td>
-                <td>{{ r.categoria }}</td>
-                <td>{{ r.cantidad_habitaciones }}</td>
+                <td>{{ r.id_comentario }}</td>
+                <td>{{ r.valoracion }}</td>
                 <td>
                     <button
                         type="button"
@@ -33,11 +27,11 @@
                     </button>
                     <a
                         class="btn btn-warning"
-                        href="{% url 'hoteles_form_editar' r.id %}"
+                        href="{% url 'puntuaciones_form_editar' r.id %}"
                         ><i class="bi bi-pencil"></i
                     ></a>
                     <a
-                        href="javascript:eliminar('{% url 'hoteles_eliminar' r.id %}')"
+                        href="javascript:eliminar('{% url 'puntuaciones_eliminar' r.id %}')"
                         class="btn btn-danger"
                         ><i class="bi bi-x-lg"></i
                     ></a>

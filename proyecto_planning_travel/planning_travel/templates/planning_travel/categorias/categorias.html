@@ -1,18 +1,15 @@
 {% extends 'planning_travel/base.html' %} 
 {% load static %} 
-{% block titulo %}Hoteles{% endblock %}
+{% block titulo %}Categorias{% endblock %}
 {% block contenedor %}
-    <h1>Hoteles</h1>
-    <a class="btn btn-success" href="{% url 'hoteles_form' %}">Agregar Hoteles</a>
+    <h1>Categorias</h1>
+    <a class="btn btn-success" href="{% url 'categorias_form' %}">Agregar Categorias</a>
 
     <table class="table">
         <thead>
             <th>ID</th>
             <th>Nombre</th>
             <th>Descripcion</th>
-            <th>Direccion</th>
-            <th>Categoria</th>
-            <th>Cantidad de habitaciones</th>
             <th>Acciones</th>
         </thead>
         <tbody>
@@ -21,23 +18,22 @@
                 <td>{{ r.id }}</td>
                 <td>{{ r.nombre }}</td>
                 <td>{{ r.descripcion }}</td>
-                <td>{{ r.direccion }}</td>
-                <td>{{ r.categoria }}</td>
-                <td>{{ r.cantidad_habitaciones }}</td>
                 <td>
                     <button
                         type="button"
                         class="btn btn-info"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalVer-1"
                     >
                         <i class="bi bi-eye-fill"></i>
                     </button>
                     <a
                         class="btn btn-warning"
-                        href="{% url 'hoteles_form_editar' r.id %}"
+                        href="{% url 'categorias_formulario_editar' r.id %}"
                         ><i class="bi bi-pencil"></i
                     ></a>
                     <a
-                        href="javascript:eliminar('{% url 'hoteles_eliminar' r.id %}')"
+                        href="javascript:eliminar('{% url 'categorias_eliminar' r.id %}')"
                         class="btn btn-danger"
                         ><i class="bi bi-x-lg"></i
                     ></a>

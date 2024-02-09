@@ -1,29 +1,31 @@
 {% extends 'planning_travel/base.html' %} 
 {% load static %} 
-{% block titulo %}Hoteles{% endblock %}
+{% block titulo %}Comodidades de los Hoteles{% endblock %}
 {% block contenedor %}
-    <h1>Hoteles</h1>
-    <a class="btn btn-success" href="{% url 'hoteles_form' %}">Agregar Hoteles</a>
+    <h1>Comodidades de los Hoteles</h1>
+    <a class="btn btn-success" href="{% url 'hoteles_comodidades_form' %}">Agregar Comodidades de los Hoteles</a>
 
     <table class="table">
         <thead>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Direccion</th>
-            <th>Categoria</th>
-            <th>Cantidad de habitaciones</th>
+            <th>Hotel</th>
+            <th>Comodidad</th>
+            <th>Disponible</th>
             <th>Acciones</th>
         </thead>
         <tbody>
             {% for r in data %}
             <tr>
                 <td>{{ r.id }}</td>
-                <td>{{ r.nombre }}</td>
-                <td>{{ r.descripcion }}</td>
-                <td>{{ r.direccion }}</td>
-                <td>{{ r.categoria }}</td>
-                <td>{{ r.cantidad_habitaciones }}</td>
+                <td>{{ r.id_hotel }}</td>
+                <td>{{ r.id_comodidad }}</td>
+                <td>
+                    {% if r.dispone %}
+                        Disponible
+                    {% else %}
+                        No disponible
+                    {% endif %}
+                </td>
                 <td>
                     <button
                         type="button"
@@ -33,11 +35,11 @@
                     </button>
                     <a
                         class="btn btn-warning"
-                        href="{% url 'hoteles_form_editar' r.id %}"
+                        href="{% url 'hoteles_comodidades_form_editar' r.id %}"
                         ><i class="bi bi-pencil"></i
                     ></a>
                     <a
-                        href="javascript:eliminar('{% url 'hoteles_eliminar' r.id %}')"
+                        href="javascript:eliminar('{% url 'hoteles_comodidades_eliminar' r.id %}')"
                         class="btn btn-danger"
                         ><i class="bi bi-x-lg"></i
                     ></a>
