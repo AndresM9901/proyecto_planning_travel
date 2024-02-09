@@ -31,14 +31,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'categorias_listar' %}">Categorias</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'hoteles_listar' %}">Hoteles</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" role="button" data-bs-toggle="dropdown" href="">Hoteles</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{% url 'hoteles_listar' %}">Ver Hoteles</a>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'usuarios_listar' %}">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" href="{% url '' %}">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link">Disable</a>
